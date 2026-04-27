@@ -12,14 +12,13 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/LowTension/android_kernel_xiaomi_sm8475 kernel
           cd kernel
-          make mrproper
           make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- vendor/marble_defconfig
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- prepare
           
       - name: Build Driver
         run: |
           git clone --depth=1 https://github.com/morrownr/8812au-20210820 driver
           cd driver
-          # Указываем KSRC точно на папку kernel
           make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KSRC=$(pwd)/../kernel
           
       - name: Upload
