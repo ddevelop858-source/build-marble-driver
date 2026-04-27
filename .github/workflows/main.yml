@@ -5,25 +5,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Toolchain
-        run: sudo apt install -y build-essential gcc-aarch64-linux-gnu
-      
       - name: Get Kernel Source
         run: |
           git clone --depth=1 https://github.com/LowTension/android_kernel_xiaomi_sm8475 kernel
-          cd kernel
-          # Пробуем самый вероятный путь для marble
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- vendor/marble_user_defconfig
-          
-      - name: Build Driver
-        run: |
-          git clone --depth=1 https://github.com/morrownr/8812au-20210820 driver
-          cd driver
-          # Указываем KSRC явно на папку kernel
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KSRC=$(pwd)/../kernel
-          
-      - name: Upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: 8812au-marble
-          path: driver/8812au.ko
+          echo "--- СПИСОК ВСЕХ КОНФИГОВ ---"
+          find kernel/arch/arm64/configs -name "*defconfig"
