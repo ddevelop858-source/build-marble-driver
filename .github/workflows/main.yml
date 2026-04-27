@@ -12,7 +12,10 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/LowTension/android_kernel_xiaomi_sm8475 kernel
           cd kernel
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- vendor/marble_defconfig
+          # Ищем файл конфигурации, который содержит 'marble' в названии
+          CONFIG_FILE=$(find arch/arm64/configs -name "*marble*defconfig" | head -n 1)
+          echo "Using config: $CONFIG_FILE"
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- $(basename $CONFIG_FILE)
           
       - name: Build Driver
         run: |
