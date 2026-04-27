@@ -12,16 +12,15 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/LowTension/android_kernel_xiaomi_sm8475 kernel
           cd kernel
-          # Ищем файл конфигурации, который содержит 'marble' в названии
-          CONFIG_FILE=$(find arch/arm64/configs -name "*marble*defconfig" | head -n 1)
-          echo "Using config: $CONFIG_FILE"
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- $(basename $CONFIG_FILE)
+          # Пробуем самый вероятный путь для marble
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- vendor/marble_user_defconfig
           
       - name: Build Driver
         run: |
           git clone --depth=1 https://github.com/morrownr/8812au-20210820 driver
           cd driver
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KSRC=../kernel
+          # Указываем KSRC явно на папку kernel
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KSRC=$(pwd)/../kernel
           
       - name: Upload
         uses: actions/upload-artifact@v4
