@@ -13,12 +13,13 @@ jobs:
           git clone --depth=1 https://github.com/LowTension/android_kernel_xiaomi_sm8475 kernel
           cd kernel
           make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- vendor/marble_defconfig
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- prepare
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules_prepare
           
       - name: Build Driver
         run: |
           git clone --depth=1 https://github.com/morrownr/8812au-20210820 driver
           cd driver
+          # Добавляем KBUILD_EXTRA_SYMBOLS, если ядро будет ругаться на символы
           make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KSRC=$(pwd)/../kernel
           
       - name: Upload
