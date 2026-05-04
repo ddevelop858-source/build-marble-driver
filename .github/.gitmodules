@@ -1,1 +1,4 @@
 
+[submodule "drivers/net/wireless/rtl8812bu"]
+	path = drivers/net/wireless/rtl8812bu
+	url = https://github.com/fastoe/RTL8812BU.git
